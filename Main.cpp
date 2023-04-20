@@ -71,6 +71,10 @@ int main()
 		case 7:
 			cout << endl;
 			testCandidate.printSSN();
+
+			if (userSelect == 7)
+				cout << endl;
+
 			system("pause");
 			break;
 

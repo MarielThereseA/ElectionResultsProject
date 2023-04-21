@@ -3,6 +3,8 @@
 #include "PersonType.h"
 using namespace std;
 
+bool ssnCheck(int ssn);
+
 int main()
 {
 	bool menu = true;
@@ -11,7 +13,7 @@ int main()
 
 	PersonType testCandidate;
 
-	while (menu)
+	while (menu) //makeshift menu to test class member functions
 	{
 		cout << "MAIN MENU\n" << endl;
 		cout << "1. Set Personal Info" << endl;
@@ -35,9 +37,14 @@ int main()
 			cout << "Enter your Social Security Number: ";
 			cin >> ssn;
 
-			testCandidate.setPersonInfo(firstName, lastName, ssn);
+			if (!ssnCheck(ssn))
+				cout << "Invalid SSN." << endl;
+			else
+			{
+				testCandidate.setPersonInfo(firstName, lastName, ssn);
+				cout << "Personal info has been updated." << endl;
+			}
 
-			cout << "Personal info has been updated." << endl;
 			system("pause");
 			break;
 
@@ -72,7 +79,7 @@ int main()
 			cout << endl;
 			testCandidate.printSSN();
 
-			if (userSelect == 7)
+			if (userSelect == 7) //brings system pause prompt to next line for more uniform formatting
 				cout << endl;
 
 			system("pause");
@@ -93,3 +100,20 @@ int main()
 	system("pause");
 	return 0;
 }
+
+bool ssnCheck(int ssn) //checks user input has valid amount of digits for ssn
+{
+	int digit = 0;
+
+	if (ssn > 999999999)
+		return false;
+
+	for (int i = 0; i < 9; ++i)
+	{
+		if (ssn > 0)
+			++digit;
+		ssn /= 10;
+	}
+
+	return digit == 9;
+} 

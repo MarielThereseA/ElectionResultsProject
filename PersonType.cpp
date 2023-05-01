@@ -59,7 +59,4 @@ void PersonType::printSSN()
 	std::cout << ssn[8] << ssn[7] << ssn[6] << "-" << ssn[5] << ssn[4] << "-" << ssn[3] << ssn[2] << ssn[1] << ssn[0];
 }
 
-PersonType::~PersonType()
-{
-
-}
+PersonType::~PersonType(){}

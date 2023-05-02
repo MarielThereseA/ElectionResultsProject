@@ -7,6 +7,9 @@
 
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
+
+CandidateType testCandidate;
+
 bool ssnCheck(int ssn)
 {
 	if (ssn > 999999999)
@@ -16,15 +19,12 @@ bool ssnCheck(int ssn)
 void personMenu(int select)
 {
 	bool menu = true;
-	int ssn;
+	int ssn, personMenuSelect;
 	std::string firstName, lastName;
 
-	PersonType testPerson;
-
-	while (menu) //makeshift menu to test class member functions
+	while (menu)
 	{
-		std::cout << "MAIN MENU\n" << std::endl;
-		std::cout << "1. Set Personal Info" << std::endl;
+		std::cout << "\n1. Set Personal Info" << std::endl;
 		std::cout << "2. Display First Name" << std::endl;
 		std::cout << "3. Display Last Name" << std::endl;
 		std::cout << "4. Display SSN" << std::endl;
@@ -49,7 +49,7 @@ void personMenu(int select)
 				std::cout << "Invalid SSN." << std::endl;
 			else
 			{
-				testPerson.setPersonInfo(firstName, lastName, ssn);
+				testCandidate.setPersonInfo(firstName, lastName, ssn);
 				std::cout << "Personal info has been updated." << std::endl;
 			}
 
@@ -57,37 +57,37 @@ void personMenu(int select)
 			break;
 
 		case 2:
-			std::cout << std::endl << testPerson.getFirstName() << std::endl;
+			std::cout << std::endl << testCandidate.getFirstName() << std::endl;
 			system("pause");
 			break;
 
 		case 3:
-			std::cout << std::endl << testPerson.getLastName() << std::endl;
+			std::cout << std::endl << testCandidate.getLastName() << std::endl;
 			system("pause");
 			break;
 
 		case 4:
-			std::cout << std::endl << testPerson.getSSN() << std::endl;
+			std::cout << std::endl << testCandidate.getSSN() << std::endl;
 			system("pause");
 			break;
 
 		case 5:
 			std::cout << std::endl;
-			testPerson.printName();
+			testCandidate.printName();
 			system("pause");
 			break;
 
 		case 6:
 			std::cout << std::endl;
-			testPerson.printPersonInfo();
+			testCandidate.printPersonInfo();
 			system("pause");
 			break;
 
 		case 7:
 			std::cout << std::endl;
-			testPerson.printSSN();
+			testCandidate.printSSN();
 
-			if (select == 7) //brings system pause prompt to next line for more uniform formatting
+			if (select == 7)
 				std::cout << std::endl;
 
 			system("pause");
@@ -96,6 +96,7 @@ void personMenu(int select)
 		case 8:
 			std::cout << "Returning to main menu." << std::endl;
 			menu = false;
+			system("pause");
 			break;
 
 		default:
@@ -113,16 +114,18 @@ void candidateMenu(int select)
 
 	while (menu)
 	{
-		std::cout << "1. Update Votes by Campus" << std::endl;
+		std::cout << "\n1. Update Votes by Campus" << std::endl;
 		std::cout << "2. Display Total Votes" << std::endl;
 		std::cout << "3. Display Votes by Campus" << std::endl;
 		std::cout << "4. Print Candidate Info" << std::endl;
 		std::cout << "5. Print Candidate Total Votes" << std::endl;
 		std::cout << "6. Print Candidate Division Votes" << std::endl;
+		std::cout << "7. Exit\n" << std::endl;
 
-		cin >> select;
+		std::cin >> select;
 
 		switch (select)
+		{
 			case 1:
 				std::cout << "1. Santiago Canyon College" << std::endl;
 				std::cout << "2. Santa Ana College" << std::endl;
@@ -130,7 +133,56 @@ void candidateMenu(int select)
 				std::cout << "4. Coastline Community College" << std::endl;
 				std::cout << "\nCampus number: ";
 				std::cin >> campus;
-				updateVotesByCampus(campus, newVotes);
+				std::cout << "How many new votes from campus " << campus << "?" << std::endl;
+				std::cin >> newVotes;
+				if (newVotes < 0 || campus < 1 || campus > 4)
+				{
+					std::cout << "Invalid input. Failed to update votes." << std::endl;
+					break;
+				}
+
+				std::cout << "Votes has been updated." << std::endl;
+				testCandidate.updateVotesByCampus(campus, newVotes);
+				system("pause");
+				break;
+			case 2:
+				std::cout << "Total Votes: " << testCandidate.getTotalVotes() << std::endl;
+				system("pause");
+				break;
+			case 3:
+				std::cout << "Santiago Canyon College: " << testCandidate.getVotesByCampus(1) << std::endl;
+				std::cout << "Santa Ana College: " << testCandidate.getVotesByCampus(2) << std::endl;
+				std::cout << "Orange Coast College: " << testCandidate.getVotesByCampus(3) << std::endl;
+				std::cout << "Coastline Community College: " << testCandidate.getVotesByCampus(4) << std::endl;
+				system("pause");
+				break;
+			case 4:
+				testCandidate.printCandidateInfo();
+				system("pause");
+				break;
+			case 5:
+				testCandidate.printCandidateTotalVotes();
+				system("pause");
+				break;
+			case 6:
+				std::cout << "1. Santiago Canyon College" << std::endl;
+				std::cout << "2. Santa Ana College" << std::endl;
+				std::cout << "3. Orange Coast College" << std::endl;
+				std::cout << "4. Coastline Community College" << std::endl << std::endl;
+				std::cout << "Campus number: ";
+				std::cin >> campus;
+				testCandidate.printCandidateDivisionVotes(campus);
+				system("pause");
+				break;
+			case 7:
+				std::cout << "Returning to main menu." << std::endl;
+				menu = false;
+				system("pause");
+				break;
+			default:
+				std::cout << "Invalid input. Please try again." << std::endl;
+				break;
+		}
 	}
 }
 #endif

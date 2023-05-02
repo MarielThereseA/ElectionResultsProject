@@ -19,7 +19,7 @@ public:
 	int getVotesByCampus(int campusNumber) const;
 	void printCandidateInfo();
 	void printCandidateTotalVotes();
-	void printCandidateDivisonVotes(int division);
+	void printCandidateDivisionVotes(int division);
 	~CandidateType();
 };
 #endif

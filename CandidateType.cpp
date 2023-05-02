@@ -11,7 +11,7 @@ CandidateType::CandidateType()
 
 void CandidateType::updateVotesByCampus(int campusNumber, int newVotes)
 {
-	votes = newVotes;
+	votes += newVotes;
 	campusArray[campusNumber] += newVotes;
 }
 
@@ -36,10 +36,10 @@ void CandidateType::printCandidateTotalVotes()
 	std::cout << "\tTotal Votes (all campuses): " << votes << std::endl;
 }
 
-void CandidateType::printCandidateDivisonVotes(int division)
+void CandidateType::printCandidateDivisionVotes(int division)
 {
 	printName();
-	std::cout << "\tCampus " << division << " total  votes: " << campusArray[division - 1] << std::endl;
+	std::cout << "\tCampus " << division << " total votes: " << campusArray[division] << std::endl;
 }
 
 CandidateType::~CandidateType(){}

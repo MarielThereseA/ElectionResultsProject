@@ -19,6 +19,7 @@ int main()
 		cout << "MAIN MENU\n" << endl;
 		cout << "1. Personal Info Menu" << endl;
 		cout << "2. Candidate Info Menu" << endl;
+		cout << "3. Exit" << endl;
 
 		cin >> userSelect;
 
@@ -26,11 +27,18 @@ int main()
 		{
 		case 1:
 			personMenu(userSelect);
+			break;
 		case 2:
 			candidateMenu(userSelect);
+			break;
 		case 3:
 			cout << "You are now exiting the program." << endl;
 			menu = false;
+			break;
+		default:
+			cout << "Invalid input. Please try again." << endl;
+			system("pause");
+			break;
 		}
 	}
 

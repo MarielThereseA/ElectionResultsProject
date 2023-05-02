@@ -1,4 +1,6 @@
-﻿  Main.cpp
-  PersonType.cpp
+﻿  CandidateType.cpp
+  Main.cpp
+C:\Users\Admin\source\repos\ElectionResultsProject\Functions.h(22,11): warning C4101: 'personMenuSelect': unreferenced local variable
   Generating Code...
+C:\Users\Admin\source\repos\ElectionResultsProject\Functions.h(17): warning C4715: 'ssnCheck': not all control paths return a value
   ElectionResultsProject.vcxproj -> C:\Users\Admin\source\repos\ElectionResultsProject\x64\Debug\ElectionResultsProject.exe

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "CandidateList.h"
 #include "CandidateType.h"
+#include "PersonType.h"
 
 CandidateList::CandidateList()
 {
@@ -92,4 +93,4 @@ void CandidateList::addCandidate(const CandidateType& newCandidate)
 	}
 }
 
-CandidateType::~CandidateType(){}
+CandidateList::~CandidateList(){}

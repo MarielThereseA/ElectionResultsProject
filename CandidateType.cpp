@@ -6,7 +6,10 @@
 CandidateType::CandidateType()
 {
 	votes = 0;
-	campusArray[NUM_OF_CAMPUSES] = { 0 };
+	for (int i = 0; i < NUM_OF_CAMPUSES; ++i)
+	{
+		campusArray[i] = 0;
+	}
 }
 
 void CandidateType::updateVotesByCampus(int campusNumber, int newVotes)

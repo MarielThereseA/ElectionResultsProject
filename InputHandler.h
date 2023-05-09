@@ -5,11 +5,11 @@
 #include "CandidateType.h"
 #include "PersonType.h"
 
-void createCandidateList(ifstream& infile, CandidateList& candidateList)
+void createCandidateList(std::ifstream& infile, CandidateList& candidateList)
 {
 	int ssn = 0;
 	int allVotes[NUM_OF_CAMPUSES] = { 0 };
-	string fName, lName;
+	std::string fName, lName;
 	infile >> ssn;
 	while (ssn != -999)
 	{
@@ -28,11 +28,11 @@ void createCandidateList(ifstream& infile, CandidateList& candidateList)
 }
 void readCandidateData(CandidateList& candidateList)
 {
-	ifstream infile;
-	infile.open("candidate_data.txt");
+	std::ifstream infile;
+	infile.open("Candidate_data.txt");
 	if (!infile)
 	{
-		cerr << "Input file does not exist." << endl;
+		std::cerr << "Input file does not exist." << std::endl;
 		exit(1);
 	}
 	createCandidateList(infile, candidateList);

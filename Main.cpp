@@ -20,8 +20,6 @@ void processChoice(CandidateList& candidateList);
 void readCandidateData(CandidateList& candidateList);
 void createCandidateList(ifstream& infile, CandidateList& candidateList);
 
-const int NUM_OF_CAMPUSES = 4;
-
 int main()
 {
 	//Create the list

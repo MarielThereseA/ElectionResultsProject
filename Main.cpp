@@ -1,47 +1,128 @@
+/*Team Weekend Warriors
+
+CMPR 121
+Election Results Project
+May 6 2023
+
+Collaboration: Mariel Therese Arambulo, Omar Cherif, Damien Lopez, Atanacia Garcia*/
+
+#include <fstream>
 #include <iostream>
 #include <string>
-#include "PersonType.h"
+#include "CandidateList.h"
+#include "InputHandler.h"
 #include "CandidateType.h"
-#include "Functions.h"
+#include "PersonType.h"
 using namespace std;
 
-bool ssnCheck(int ssn);
-void personMenu(int select);
-void candidateMenu(int select);
+void displayMenu();
+void processChoice(CandidateList& candidateList);
+void readCandidateData(CandidateList& candidateList);
+void createCandidateList(ifstream& infile, CandidateList& candidateList);
+
+const int NUM_OF_CAMPUSES = 4;
 
 int main()
 {
-	bool menu = true;
-	int userSelect;
-
-	while (menu)
-	{
-		cout << "MAIN MENU\n" << endl;
-		cout << "1. Personal Info Menu" << endl;
-		cout << "2. Candidate Info Menu" << endl;
-		cout << "3. Exit" << endl;
-
-		cin >> userSelect;
-
-		switch (userSelect)
-		{
-		case 1:
-			personMenu(userSelect);
-			break;
-		case 2:
-			candidateMenu(userSelect);
-			break;
-		case 3:
-			cout << "You are now exiting the program." << endl;
-			menu = false;
-			break;
-		default:
-			cout << "Invalid input. Please try again." << endl;
-			system("pause");
-			break;
-		}
-	}
-
+	//Create the list
+	CandidateList candidateList;
+	//fill the list with candidates data
+	readCandidateData(candidateList);
+	//Make a choice
+	displayMenu();
+	//Process the choice
+	processChoice(candidateList);
+	cout << endl;
 	system("pause");
 	return 0;
+}
+void displayMenu()
+{
+	cout << "\n*** MAIN MENU ***\n";
+	cout << "\nSelect one of the following:\n\n";
+	cout << " 1: Print all candidates" << endl;
+	cout << " 2: Print a candidate's campus votes" << endl;
+	cout << " 3: Print a candidate's total votes" << endl;
+	cout << " 4: Print winner" << endl;
+	cout << " 5: Print final results" << endl;
+	cout << " 6: To exit" << endl;
+}
+void processChoice(CandidateList& candidateList)
+{
+	int choice;
+	cout << "\nEnter your choice: ";
+	cin >> choice;
+	while (choice != 6)
+	{
+		string fName, lName;
+		int campus = 0, ssn = 0;
+		switch (choice)
+		{
+			// Print all candidates
+		case 1:
+			cout << endl;
+			candidateList.printAllCandidates();
+			cout << endl;
+			break;
+			// Print a candidates's campus votes
+		case 2:
+			cout << "\nEnter candidate's social security number (no dashes):";
+			cin >> ssn;
+			cout << endl;
+			if (candidateList.searchCandidate(ssn))
+			{
+				candidateList.printCandidateName(ssn);
+				//cout << endl;
+				for (int i = 1; i <= NUM_OF_CAMPUSES; ++i)
+					candidateList.printCandidateCampusVotes(ssn, i);
+			}
+			cout << endl;
+			break;
+			// Print a candidate's total votes
+		case 3:
+			cout << "\nEnter candidate's social security number (no dashes):";
+			cin >> ssn;
+			cout << endl;
+			if (candidateList.searchCandidate(ssn))
+			{
+				candidateList.printCandidateName(ssn);
+				//cout << endl;
+				candidateList.printCandidateTotalVotes(ssn);
+			}
+			cout << endl << endl;
+			break;
+			// Print winner
+		case 4:
+			ssn = candidateList.getWinner();
+			if (ssn != 0)
+			{
+				cout << "\nElection winner: ";
+				candidateList.printCandidateName(ssn);
+				//cout << endl;
+				candidateList.printCandidateTotalVotes(ssn);
+			}
+			else
+			{
+				cout << "\n => There are no candidates.";
+			}
+			cout << endl << endl;
+			break;
+		case 5: // prints totall votes and name of each candidate
+			cout << endl;
+			cout << "FINAL RESULTS" << endl;
+			cout << "-------------" << endl;
+			candidateList.printFinalResults();
+			cout << endl;
+			break;
+		default:
+			cout << "\n => Sorry. That is not a selection. \n";
+			cout << endl;
+		}
+		cout << endl;
+		displayMenu();
+		cout << "\nEnter your choice: ";
+		cin >> choice;
+	}
+	if (choice == 6)
+		cout << "\nThank you and have a great day!" << endl;
 }

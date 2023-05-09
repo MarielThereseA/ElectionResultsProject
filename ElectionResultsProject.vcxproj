@@ -127,14 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CandidateList.cpp" />
     <ClCompile Include="CandidateType.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PersonType.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CandidateList.h" />
     <ClInclude Include="CandidateType.h" />
-    <ClInclude Include="Functions.h" />
+    <ClInclude Include="InputHandler.h" />
     <ClInclude Include="PersonType.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Candidate_data.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

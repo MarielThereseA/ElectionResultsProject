@@ -4,12 +4,13 @@
 #ifndef CANDIDATELIST_H
 #define CANDIDATELIST_H
 
-const int numOfCandidates = 31;
+const int MAX_NUM_CANDIDATES = 50;
 
 class CandidateList
 {
 private:
-	CandidateType candidates[numOfCandidates];
+	int numOfCandidates;
+	CandidateType candidates[MAX_NUM_CANDIDATES];
 public:
 	CandidateList();
 	void printAllCandidates();

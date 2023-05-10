@@ -5,7 +5,8 @@
 
 CandidateList::CandidateList()
 {
-	for (int i = 0; i < 31; ++i)
+	numOfCandidates = 0;
+	for (int i = 0; i < MAX_NUM_CANDIDATES; ++i)
 	{
 		candidates[i] = CandidateType();
 	}
@@ -15,7 +16,13 @@ void CandidateList::printAllCandidates()
 {
 	for (int i = 0; i < numOfCandidates; ++i)
 	{
-		candidates[i].printCandidateInfo();
+		if (i == numOfCandidates - 1)
+			candidates[i].printCandidateInfo();
+		else
+		{
+			candidates[i].printCandidateInfo();
+			std::cout << std::endl;
+		}
 	}
 }
 
@@ -26,7 +33,7 @@ bool CandidateList::searchCandidate(int ssn) const
 		if (candidates[i].getSSN() == ssn)
 			return true;
 	}
-
+	std::cout << "Candidate does not exist.";
 	return false;
 }
 
@@ -41,11 +48,22 @@ void CandidateList::printCandidateName(int ssn)
 
 void CandidateList::printCandidateCampusVotes(int ssn, int i)
 {
-	for (int i = 0; i < numOfCandidates; ++i)
+	int candidate = -1;
+	for (int x = 0; x < numOfCandidates; ++x)
 	{
-		if (candidates[i].getSSN() == ssn)
-			candidates[i].printCandidateDivisionVotes(i);
+		if (searchCandidate(candidates[x].getSSN()))
+		{
+			candidate = x;
+			break;
+		}
 	}
+
+	if (candidate == -1)
+	{
+		return;
+	}
+
+	candidates[candidate].printCandidateDivisionVotes(i);
 }
 
 void CandidateList::printCandidateTotalVotes(int ssn)
@@ -60,7 +78,7 @@ void CandidateList::printCandidateTotalVotes(int ssn)
 int CandidateList::getWinner() const
 {
 	int mostVotes = 0;
-	int ssnWinner;
+	int ssnWinner = 0;
 	for (int i = 0; i < numOfCandidates; ++i)
 	{
 		if (candidates[i].getTotalVotes() > mostVotes)
@@ -77,19 +95,17 @@ void CandidateList::printFinalResults()
 {
 	for (int i = 0; i < numOfCandidates; ++i)
 	{
-		candidates[i].printCandidateTotalVotes();
+		candidates[i].printName();
+		std::cout << ": " << candidates[i].getTotalVotes() << std::endl;
 	}
 }
 
 void CandidateList::addCandidate(const CandidateType& newCandidate)
 {
-	for (int i = 0; i < numOfCandidates; ++i)
+	if (numOfCandidates < MAX_NUM_CANDIDATES)
 	{
-		if (!searchCandidate(candidates[i].getSSN()))
-		{
-			candidates[i] = newCandidate;
-			break;
-		}
+		candidates[numOfCandidates] = newCandidate;
+		++numOfCandidates;
 	}
 }
 

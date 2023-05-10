@@ -35,14 +35,15 @@ void CandidateType::printCandidateInfo()
 
 void CandidateType::printCandidateTotalVotes()
 {
-	printName();
-	std::cout << "\tTotal Votes (all campuses): " << votes << std::endl;
+	std::cout << "\n\tTotal Votes (all campuses): " << votes;
 }
 
 void CandidateType::printCandidateDivisionVotes(int division)
 {
-	printName();
-	std::cout << "\tCampus " << division << " total votes: " << campusArray[division] << std::endl;
+	if (division == 1)
+		std::cout << "\n\tCampus " << division << " total votes: " << campusArray[division - 1] << std::endl;
+	else
+		std::cout << "\tCampus " << division << " total votes: " << campusArray[division - 1] << std::endl;
 }
 
 CandidateType::~CandidateType(){}

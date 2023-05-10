@@ -36,7 +36,8 @@ int main()
 }
 void displayMenu()
 {
-	cout << "\n*** MAIN MENU ***\n";
+	cout << "-------------------------" << endl;
+	cout << "*** MAIN MENU ***\n";
 	cout << "\nSelect one of the following:\n\n";
 	cout << " 1: Print all candidates" << endl;
 	cout << " 2: Print a candidate's campus votes" << endl;
@@ -44,6 +45,7 @@ void displayMenu()
 	cout << " 4: Print winner" << endl;
 	cout << " 5: Print final results" << endl;
 	cout << " 6: To exit" << endl;
+	cout << "-------------------------" << endl;
 }
 void processChoice(CandidateList& candidateList)
 {

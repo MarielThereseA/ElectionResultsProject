@@ -38,13 +38,13 @@ int PersonType::getSSN() const
 
 void PersonType::printName()
 {
-	std::cout << lName << ", " << fName << std::endl;
+	std::cout << lName << ", " << fName;
 }
 
 void PersonType::printPersonInfo()
 {
 	printSSN();
-	std::cout << " " << fName << " " << lName << std::endl;
+	std::cout << " " << fName << " " << lName;
 }
 
 void PersonType::printSSN()

@@ -4,23 +4,23 @@
 #ifndef CANDIDATELIST_H
 #define CANDIDATELIST_H
 
-const int MAX_NUM_CANDIDATES = 50;
-
 class CandidateList
 {
 private:
-	int numOfCandidates;
-	CandidateType candidates[MAX_NUM_CANDIDATES];
+	CandidateType candidate;
+	CandidateList* first;
+	CandidateList* last;
+	static int counter;
 public:
 	CandidateList();
-	void printAllCandidates();
+	void addCandidate(const CandidateType& newCandidate);
+	int getWinner() const;
 	bool searchCandidate(int ssn) const;
 	void printCandidateName(int ssn);
+	void printAllCandidates();
 	void printCandidateCampusVotes(int ssn, int i);
 	void printCandidateTotalVotes(int ssn);
-	int getWinner() const;
-	void printFinalResults();
-	void addCandidate(const CandidateType& newCandidate);
+	void destroyList();
 	~CandidateList();
 };
 #endif

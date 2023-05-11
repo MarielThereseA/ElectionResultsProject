@@ -3,110 +3,69 @@
 #include "CandidateType.h"
 #include "PersonType.h"
 
+int CandidateList::counter = 0;
+
 CandidateList::CandidateList()
 {
-	numOfCandidates = 0;
-	for (int i = 0; i < MAX_NUM_CANDIDATES; ++i)
-	{
-		candidates[i] = CandidateType();
-	}
+	first = nullptr;
+	last = nullptr;
+	++counter;
 }
 
-void CandidateList::printAllCandidates()
+void CandidateList::addCandidate(const CandidateType& newCandidate)
 {
-	for (int i = 0; i < numOfCandidates; ++i)
+	last = first + counter;
+	
+}
+
+int CandidateList::getWinner() const
+{
+	if (first == nullptr)
 	{
-		if (i == numOfCandidates - 1)
-			candidates[i].printCandidateInfo();
-		else
+		std::cout << "=> List is empty." << std::endl;
+		return 0;
+	}
+
+	int winnerSSN = 0, mostVotes = 0;
+
+	for (int i = 0; i <= counter; ++i)
+	{
+		if ((first + i)->candidate.getTotalVotes() > mostVotes)
 		{
-			candidates[i].printCandidateInfo();
-			std::cout << std::endl;
+			mostVotes = (first + i)->candidate.getTotalVotes();
+			winnerSSN = (first + i)->candidate.getSSN();
 		}
 	}
+
+	return winnerSSN;
 }
 
 bool CandidateList::searchCandidate(int ssn) const
 {
-	for (int i = 0; i < numOfCandidates; ++i)
+	if (first == nullptr)
 	{
-		if (candidates[i].getSSN() == ssn)
-			return true;
+		std::cout << "=> List is empty." << std::endl;
+		return false;
 	}
-	std::cout << "Candidate does not exist.";
+
+	while (ssn != -999)
+	{
+		for (int i = 0; i <= counter; ++i)
+		{
+			if ((first + i)->candidate.getSSN() == ssn)
+				return true;
+		}
+	}
+	std::cout << "=> SSN not in the list." << std::endl;
 	return false;
 }
 
 void CandidateList::printCandidateName(int ssn)
 {
-	for (int i = 0; i < numOfCandidates; ++i)
-	{
-		if (candidates[i].getSSN() == ssn)
-			candidates[i].printName();
-	}
+
 }
 
-void CandidateList::printCandidateCampusVotes(int ssn, int i)
+CandidateList::~CandidateList()
 {
-	int candidate = -1;
-	for (int x = 0; x < numOfCandidates; ++x)
-	{
-		if (searchCandidate(candidates[x].getSSN()))
-		{
-			candidate = x;
-			break;
-		}
-	}
-
-	if (candidate == -1)
-	{
-		return;
-	}
-
-	candidates[candidate].printCandidateDivisionVotes(i);
+	destroyList();
 }
-
-void CandidateList::printCandidateTotalVotes(int ssn)
-{
-	for (int i = 0; i < numOfCandidates; ++i)
-	{
-		if (candidates[i].getSSN() == ssn)
-			candidates[i].printCandidateTotalVotes();
-	}
-}
-
-int CandidateList::getWinner() const
-{
-	int mostVotes = 0;
-	int ssnWinner = 0;
-	for (int i = 0; i < numOfCandidates; ++i)
-	{
-		if (candidates[i].getTotalVotes() > mostVotes)
-		{
-			mostVotes = candidates[i].getTotalVotes();
-			ssnWinner = candidates[i].getSSN();
-		}
-	}
-
-	return ssnWinner;
-}
-
-void CandidateList::printFinalResults()
-{
-	for (int i = 0; i < numOfCandidates; ++i)
-	{
-		candidates[i].printName();
-		std::cout << ": " << candidates[i].getTotalVotes() << std::endl;
-	}
-}
-
-void CandidateList::addCandidate(const CandidateType& newCandidate)
-{
-	if (numOfCandidates < MAX_NUM_CANDIDATES)
-	{
-		candidates[numOfCandidates] = newCandidate;
-		++numOfCandidates;
-	}
-}
-
-CandidateList::~CandidateList(){}

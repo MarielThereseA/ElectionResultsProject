@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #ifndef PERSONTYPE_H
 #define PERSONTYPE_H
 

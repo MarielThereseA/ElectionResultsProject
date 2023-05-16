@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include "CandidateType.h"
 #ifndef CANDIDATELIST_H
 #define CANDIDATELIST_H

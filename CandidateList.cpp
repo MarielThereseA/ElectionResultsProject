@@ -15,6 +15,7 @@ CandidateList::CandidateList()
 
 CandidateList::CandidateList(const CandidateType& votes, CandidateList* link)
 {
+	first->setCandidate(votes);
 	next = link;
 	last = nullptr;
 	candidate = votes;
@@ -37,9 +38,17 @@ void CandidateList::setCandidate(const CandidateType& votes)
 	candidate = votes;
 }
 
+void CandidateList::setLink(CandidateList* link)
+{
+	next = link;
+}
+
 void CandidateList::addCandidate(const CandidateType& newCandidate)
 {
-	
+	if (first == nullptr)
+		first->setCandidate(newCandidate);
+	last->setCandidate(newCandidate);
+	next = nullptr;
 }
 
 int CandidateList::getWinner() const
@@ -175,6 +184,7 @@ void CandidateList::destroyList()
 {
 	
 }
+
 CandidateList::~CandidateList()
 {
 	destroyList();

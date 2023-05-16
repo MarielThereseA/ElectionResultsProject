@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include "PersonType.h"
 #pragma once
 #ifndef CANDIDATETYPE_H

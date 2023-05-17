@@ -14,10 +14,10 @@ CandidateList::CandidateList()
 
 CandidateList::CandidateList(const CandidateType& votes, CandidateList* link)
 {
-	if(first == nullptr)
-		first = this->first;
-	next = link;
 	candidate = votes;
+	next = link;
+	if (first == nullptr)
+		first = this;
 	++counter;
 }
 
@@ -43,7 +43,7 @@ void CandidateList::setLink(CandidateList* link)
 
 void CandidateList::addCandidate(const CandidateType& newCandidate)
 {
-	if (counter == 0)
+	if (first == nullptr)
 		first->setCandidate(newCandidate);
 	candidate = newCandidate;
 	next = nullptr;
@@ -51,7 +51,7 @@ void CandidateList::addCandidate(const CandidateType& newCandidate)
 
 int CandidateList::getWinner() const
 {
-	if (counter == 0)
+	if (first == nullptr)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return 0;
@@ -59,11 +59,20 @@ int CandidateList::getWinner() const
 
 	int winnerSSN = 0, mostVotes = 0;
 
-	while (next != nullptr)
+	if (first->candidate.getTotalVotes() > mostVotes)
 	{
-		if (first != nullptr)
+		winnerSSN = first->candidate.getSSN();
+		mostVotes = first->candidate.getTotalVotes();
+	}
+
+	CandidateList* current = next;
+	while (current != nullptr)
+	{
+		if (current->candidate.getTotalVotes() > mostVotes)
 		{
-			first->
+			winnerSSN = next->candidate.getSSN();
+			mostVotes = next->candidate.getTotalVotes();
+			current = this->next;
 		}
 	}
 
@@ -72,19 +81,21 @@ int CandidateList::getWinner() const
 
 bool CandidateList::searchCandidate(int ssn) const
 {
-	if (counter == 0)
+	if (first == nullptr)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return false;
 	}
 
-	while (next != nullptr)
+	if (first->candidate.getSSN() == ssn)
+		return true;
+
+	CandidateList* current = next;
+	while (current != nullptr)
 	{
-		for (int i = 0; i <= counter; ++i)
-		{
-			if ((first + i)->candidate.getSSN() == ssn)
-				return true;
-		}
+		if (current->candidate.getSSN() == ssn)
+			return true;
+		current = this->next;
 	}
 	std::cout << "=> SSN not in the list." << std::endl;
 	return false;
@@ -92,29 +103,34 @@ bool CandidateList::searchCandidate(int ssn) const
 
 void CandidateList::printCandidateName(int ssn)
 {
-	if (counter == 0)
+	if (first == nullptr)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return;
 	}
 
-	while (next != nullptr)
+	if (first->candidate.getSSN() == ssn)
 	{
-		for (int i = 0; i <= counter; ++i)
+		candidate.printName();
+		return;
+	}
+
+	CandidateList* current = next;
+	while (current != nullptr)
+	{
+		if (current->candidate.getSSN() == ssn)
 		{
-			if ((first + i)->candidate.getSSN() == ssn)
-			{
-				(first+i)->candidate.printName();
-				return;
-			}
+			candidate.printName();
+			return;
 		}
+		current = this->next;
 	}
 	std::cout << "SSN not in the list." << std::endl;
 }
 
 void CandidateList::printAllCandidates()
 {
-	if (counter == 0)
+	if (first == nullptr)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return;

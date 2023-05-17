@@ -9,17 +9,15 @@ CandidateList::CandidateList()
 {
 	first = nullptr;
 	next = nullptr;
-	last = nullptr;
 	++counter;
 }
 
 CandidateList::CandidateList(const CandidateType& votes, CandidateList* link)
 {
-	first->setCandidate(votes);
+	if(first == nullptr)
+		first = this->first;
 	next = link;
-	last = nullptr;
 	candidate = votes;
-
 	++counter;
 }
 
@@ -45,15 +43,15 @@ void CandidateList::setLink(CandidateList* link)
 
 void CandidateList::addCandidate(const CandidateType& newCandidate)
 {
-	if (first == nullptr)
+	if (counter == 0)
 		first->setCandidate(newCandidate);
-	last->setCandidate(newCandidate);
+	candidate = newCandidate;
 	next = nullptr;
 }
 
 int CandidateList::getWinner() const
 {
-	if (first == nullptr)
+	if (counter == 0)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return 0;
@@ -61,12 +59,11 @@ int CandidateList::getWinner() const
 
 	int winnerSSN = 0, mostVotes = 0;
 
-	for (int i = 0; i <= counter; ++i)
+	while (next != nullptr)
 	{
-		if ((first + i)->candidate.getTotalVotes() > mostVotes)
+		if (first != nullptr)
 		{
-			mostVotes = (first + i)->candidate.getTotalVotes();
-			winnerSSN = (first + i)->candidate.getSSN();
+			first->
 		}
 	}
 
@@ -75,13 +72,13 @@ int CandidateList::getWinner() const
 
 bool CandidateList::searchCandidate(int ssn) const
 {
-	if (first == nullptr)
+	if (counter == 0)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return false;
 	}
 
-	while (last != nullptr)
+	while (next != nullptr)
 	{
 		for (int i = 0; i <= counter; ++i)
 		{
@@ -95,13 +92,13 @@ bool CandidateList::searchCandidate(int ssn) const
 
 void CandidateList::printCandidateName(int ssn)
 {
-	if (first == nullptr)
+	if (counter == 0)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return;
 	}
 
-	while (last != nullptr)
+	while (next != nullptr)
 	{
 		for (int i = 0; i <= counter; ++i)
 		{
@@ -117,7 +114,7 @@ void CandidateList::printCandidateName(int ssn)
 
 void CandidateList::printAllCandidates()
 {
-	if (first == nullptr)
+	if (counter == 0)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return;
@@ -129,7 +126,7 @@ void CandidateList::printAllCandidates()
 
 void CandidateList::printCandidateCampusVotes(int ssn, int i)
 {
-	if (first == nullptr)
+	if (counter == 0)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return;
@@ -137,7 +134,7 @@ void CandidateList::printCandidateCampusVotes(int ssn, int i)
 
 	CandidateList* current = first;
 
-	while (last != nullptr)
+	while (next != nullptr)
 	{
 		for (int j = 0; j <= counter; ++j)
 		{
@@ -153,13 +150,13 @@ void CandidateList::printCandidateCampusVotes(int ssn, int i)
 
 void CandidateList::printCandidateTotalVotes(int ssn)
 {
-	if (first == nullptr)
+	if (counter == 0)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return;
 	}
 
-	while (last != nullptr)
+	while (next != nullptr)
 	{
 		for (int i = 0; i <= counter; ++i)
 		{
@@ -182,7 +179,11 @@ void CandidateList::printFinalResults()
 
 void CandidateList::destroyList()
 {
-	
+	if (counter == 0)
+	{
+		std::cout << "=> List is empty." << std::endl;
+		return;
+	}
 }
 
 CandidateList::~CandidateList()

@@ -7,9 +7,8 @@ class CandidateList
 {
 private:
 	CandidateType candidate;
-	CandidateList* first;
+	static CandidateList* first;
 	CandidateList* next;
-	CandidateList* last;
 	static int counter;
 public:
 	CandidateList();
@@ -28,7 +27,5 @@ public:
 	void printFinalResults();
 	void destroyList();
 	~CandidateList();
-
-
 };
 #endif

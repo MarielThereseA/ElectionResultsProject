@@ -4,21 +4,17 @@
 #include "PersonType.h"
 
 int CandidateList::counter = 0;
+CandidateList* CandidateList::first = nullptr;
 
 CandidateList::CandidateList()
 {
-	first = nullptr;
 	next = nullptr;
-	++counter;
 }
 
 CandidateList::CandidateList(const CandidateType& votes, CandidateList* link)
 {
 	candidate = votes;
 	next = link;
-	if (first == nullptr)
-		first = this;
-	++counter;
 }
 
 CandidateList* CandidateList::getLink() const
@@ -43,10 +39,26 @@ void CandidateList::setLink(CandidateList* link)
 
 void CandidateList::addCandidate(const CandidateType& newCandidate)
 {
+	CandidateList* node = new CandidateList(newCandidate, nullptr);
 	if (first == nullptr)
-		first->setCandidate(newCandidate);
-	candidate = newCandidate;
-	next = nullptr;
+	{
+		first = node;
+		++counter;
+		return;
+	}
+
+	CandidateList* current = first;
+
+	while (current != nullptr)
+	{
+		if (current->next == nullptr)
+		{
+			current->next = node;
+			++counter;
+			return;
+		}
+		current = current->next;
+	}
 }
 
 int CandidateList::getWinner() const
@@ -59,20 +71,14 @@ int CandidateList::getWinner() const
 
 	int winnerSSN = 0, mostVotes = 0;
 
-	if (first->candidate.getTotalVotes() > mostVotes)
-	{
-		winnerSSN = first->candidate.getSSN();
-		mostVotes = first->candidate.getTotalVotes();
-	}
-
-	CandidateList* current = next;
+	CandidateList* current = first;
 	while (current != nullptr)
 	{
 		if (current->candidate.getTotalVotes() > mostVotes)
 		{
 			winnerSSN = next->candidate.getSSN();
 			mostVotes = next->candidate.getTotalVotes();
-			current = this->next;
+			current = current->next;
 		}
 	}
 
@@ -87,15 +93,12 @@ bool CandidateList::searchCandidate(int ssn) const
 		return false;
 	}
 
-	if (first->candidate.getSSN() == ssn)
-		return true;
-
-	CandidateList* current = next;
+	CandidateList* current = first;
 	while (current != nullptr)
 	{
 		if (current->candidate.getSSN() == ssn)
 			return true;
-		current = this->next;
+		current = current->next;
 	}
 	std::cout << "=> SSN not in the list." << std::endl;
 	return false;
@@ -109,13 +112,7 @@ void CandidateList::printCandidateName(int ssn)
 		return;
 	}
 
-	if (first->candidate.getSSN() == ssn)
-	{
-		candidate.printName();
-		return;
-	}
-
-	CandidateList* current = next;
+	CandidateList* current = first;
 	while (current != nullptr)
 	{
 		if (current->candidate.getSSN() == ssn)
@@ -123,7 +120,7 @@ void CandidateList::printCandidateName(int ssn)
 			candidate.printName();
 			return;
 		}
-		current = this->next;
+		current = current->next;
 	}
 	std::cout << "SSN not in the list." << std::endl;
 }
@@ -136,8 +133,12 @@ void CandidateList::printAllCandidates()
 		return;
 	}
 
-	for (int i = 0; i <= counter; ++i)
-		(first + i)->candidate.printCandidateInfo();
+	CandidateList* current = first;
+	while (current != nullptr)
+	{
+		current->candidate.printCandidateInfo();
+		current = current->next;
+	}
 }
 
 void CandidateList::printCandidateCampusVotes(int ssn, int i)
@@ -150,38 +151,35 @@ void CandidateList::printCandidateCampusVotes(int ssn, int i)
 
 	CandidateList* current = first;
 
-	while (next != nullptr)
+	while (current != nullptr)
 	{
-		for (int j = 0; j <= counter; ++j)
+		if (current->candidate.getSSN() == ssn)
 		{
-			if ((first + i)->candidate.getSSN() == ssn)
-			{
-				(first + i)->candidate.printCandidateDivisionVotes(i);
-				return;
-			}
+			current->candidate.printCandidateDivisionVotes(i);
+			return;
 		}
+		current = current->next;
 	}
 	std::cout << "=> SSN not in the list." << std::endl;
 }
 
 void CandidateList::printCandidateTotalVotes(int ssn)
 {
-	if (counter == 0)
+	if (first == nullptr)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return;
 	}
 
-	while (next != nullptr)
+	CandidateList* current = first;
+	while (current != nullptr)
 	{
-		for (int i = 0; i <= counter; ++i)
+		if (current->candidate.getSSN() == ssn)
 		{
-			if ((first + i)->candidate.getSSN() == ssn)
-			{
-				(first + i)->candidate.printCandidateTotalVotes();
-				return;
-			}
-		}	
+			current->candidate.printCandidateTotalVotes();
+			return;
+		}
+		current = current->next;
 	}
 	std::cout << "SSN not in the list." << std::endl;
 }
@@ -195,11 +193,20 @@ void CandidateList::printFinalResults()
 
 void CandidateList::destroyList()
 {
-	if (counter == 0)
+	if (first == nullptr)
 	{
 		std::cout << "=> List is empty." << std::endl;
 		return;
 	}
+
+	CandidateList* current = first;
+	while (current != nullptr)
+	{
+		
+		current = current->next;
+		--counter;
+	}
+	current = nullptr;
 }
 
 CandidateList::~CandidateList()

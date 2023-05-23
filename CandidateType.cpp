@@ -1,4 +1,4 @@
-#include <iostream>E
+#include <iostream>
 #include "PersonType.h"
 #include "CandidateType.h"
 

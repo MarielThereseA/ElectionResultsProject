@@ -70,18 +70,17 @@ int CandidateList::getWinner() const
 	}
 
 	int winnerSSN = 0, mostVotes = 0;
-
 	CandidateList* current = first;
+
 	while (current != nullptr)
 	{
 		if (current->candidate.getTotalVotes() > mostVotes)
 		{
-			winnerSSN = next->candidate.getSSN();
-			mostVotes = next->candidate.getTotalVotes();
-			current = current->next;
+			winnerSSN = current->candidate.getSSN();
+			mostVotes = current->candidate.getTotalVotes();
 		}
+		current = current->next;
 	}
-
 	return winnerSSN;
 }
 
@@ -117,12 +116,12 @@ void CandidateList::printCandidateName(int ssn)
 	{
 		if (current->candidate.getSSN() == ssn)
 		{
-			candidate.printName();
+			current->candidate.printName();
 			return;
 		}
 		current = current->next;
 	}
-	std::cout << "SSN not in the list." << std::endl;
+	std::cout << "=> SSN not in the list." << std::endl;
 }
 
 void CandidateList::printAllCandidates()
@@ -134,9 +133,11 @@ void CandidateList::printAllCandidates()
 	}
 
 	CandidateList* current = first;
+
 	while (current != nullptr)
 	{
 		current->candidate.printCandidateInfo();
+		std::cout << std::endl;
 		current = current->next;
 	}
 }
@@ -186,9 +187,20 @@ void CandidateList::printCandidateTotalVotes(int ssn)
 
 void CandidateList::printFinalResults()
 {
-	printCandidateName(getWinner());
-	std::cout << std::endl;
-	printCandidateTotalVotes(getWinner());
+	if (first == nullptr)
+	{
+		std::cout << "=> List is empty." << std::endl;
+		return;
+	}
+
+	CandidateList* current = first;
+
+	while (current != nullptr)
+	{
+		current->candidate.printName();
+		std::cout << ": " << current->candidate.getTotalVotes() << std::endl;
+		current = current->next;
+	}
 }
 
 void CandidateList::destroyList()
@@ -200,13 +212,18 @@ void CandidateList::destroyList()
 	}
 
 	CandidateList* current = first;
-	while (current != nullptr)
+
+	while (counter > 0)
 	{
-		
-		current = current->next;
+		current = first;
+
+		while (current->next != nullptr)
+			current = current->next;
+
+		current->candidate.~CandidateType();
 		--counter;
+		current = nullptr;
 	}
-	current = nullptr;
 }
 
 CandidateList::~CandidateList()

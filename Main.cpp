@@ -2,9 +2,9 @@
 
 CMPR 121
 Election Results Project
-May 6 2023
+May 30 2023
 
-Collaboration: Mariel Therese Arambulo, Omar Cherif, Damien Lopez, Atanacia Garcia*/
+Collaboration: Mariel Therese Arambulo, Omar Cherif, Damien Lopez, Atanacia Sanchez*/
 
 #include <fstream>
 #include <iostream>

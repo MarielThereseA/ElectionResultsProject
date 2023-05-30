@@ -9,10 +9,13 @@ private:
 	CandidateType candidate;
 	static CandidateList* first;
 	CandidateList* next;
+	static CandidateList* last;
 	static int counter;
 public:
 	CandidateList();
 	CandidateList(const CandidateType& votes, CandidateList* link);
+	CandidateList(const CandidateList& other);
+	CandidateList& operator=(const CandidateList& other);
 	CandidateList* getLink() const;
 	CandidateType getCandidate() const;
 	void setCandidate(const CandidateType& votes);
